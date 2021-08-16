@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  bool eyeButton = true;
 
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -102,7 +103,7 @@ class LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.only(top:20.0, left: 25.0, right: 25.0),
                       child: TextField(
                         controller: password,
-                        obscureText: true,
+                        obscureText: eyeButton,
                         decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             prefixIcon: const Icon(
@@ -111,9 +112,15 @@ class LoginPageState extends State<LoginPage> {
                             ),
                             suffixIcon: IconButton(
                                 onPressed: () {
+                                  setState(() {
+                                    eyeButton = !eyeButton;
+                                  });
                                 },
-                                icon: const Icon(
+                                icon: eyeButton ? const Icon(
                                   Icons.visibility_outlined,
+                                  color: Colors.grey,
+                                ) : const Icon(
+                                  Icons.visibility_off_outlined,
                                   color: Colors.grey,
                                 )),
                             labelText: 'Password*',
