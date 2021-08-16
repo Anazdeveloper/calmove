@@ -11,7 +11,7 @@ class DoctorsListBloc extends Bloc<DoctorsListEvent, DoctorsListState> {
     if(event is DoctorsListUiLoadedEvent) {
       yield DoctorsListInputNotLoadedYet();
       final Doctors response = await DoctorsRepo().getData();
-      yield DoctorsListLoadedState(response.data!);
+      yield DoctorsListLoadedState(response.data);
     }
   }
 
@@ -38,7 +38,7 @@ class DoctorsListInputNotLoadedYet extends DoctorsListState {}
 class DoctorsListUiNotLoadedYet extends DoctorsListState {}
 
 class DoctorsListLoadedState extends DoctorsListState {
-  final List<DoctorData> data;
+  final List<DoctorData> ? data;
 
   DoctorsListLoadedState(this.data);
 }

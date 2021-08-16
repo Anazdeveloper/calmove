@@ -5,20 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCellWidget extends StatelessWidget {
-  final String? thumbnailPath;
-  final String? doctorName;
-  final BranchName? branchName;
-  final Designation? designation;
+  final String ? thumbnailPath;
+  final String ? doctorName;
+  final String ? branchName;
+  final String ? designation;
 
   DoctorCellWidget({this.thumbnailPath,this.doctorName,this.branchName,this.designation});
 
   @override
   Widget build(BuildContext context) {
-   // String branchnameValue = branchNameValues[branchName!.toString()];
     return Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 25.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.20,
+        height: MediaQuery.of(context).size.height * 0.15,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
@@ -30,7 +29,6 @@ class DoctorCellWidget extends StatelessWidget {
               offset: const Offset(0, 3),
             )
           ]
-
         ),
         child: Stack(
           children: [
@@ -62,9 +60,7 @@ class DoctorCellWidget extends StatelessWidget {
                   Container(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      //BranchName.values![branchName!.index].toString(),
-                      //branchNameValues[branchName!.index],
-                      branchName.toString(),
+                      branchName!,
                       style: TextStyle(
                         color: Colors.cyan[700]
                       ),

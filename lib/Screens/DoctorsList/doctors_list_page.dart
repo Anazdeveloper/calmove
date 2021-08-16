@@ -4,6 +4,7 @@ import 'package:calmove/UIComponents/progress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:searchfield/searchfield.dart';
 
 class DoctorsListPage extends StatefulWidget {
 
@@ -21,8 +22,10 @@ class Item {
 
 class DoctorsListPageState extends State<DoctorsListPage> {
 
-  List<String> locations = <String>['Dammam','Jeddah','Madinah','Makkah','Riyadh'];
-  String? dropdownValue;
+  TextEditingController queryTextController = TextEditingController();
+
+  List<String> locations = <String>['All','Dammam','Jeddah','Madinah','Makkah','Riyadh'];
+  String? dropdownValue = 'All';
   // List locations = [
   //   Item('Dammam'),
   //   Item('Jeddah'),
@@ -57,6 +60,17 @@ class DoctorsListPageState extends State<DoctorsListPage> {
                   color: Colors.white,
                 ),
               ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+
+                  },
+                  icon: const Icon(
+                    Icons.filter_alt,
+                    color: Colors.white,
+                  )
+              )
+            ],
           ),
           body: Stack(
             children: [
@@ -111,7 +125,7 @@ class DoctorsListPageState extends State<DoctorsListPage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(top: 80.0),
+                padding: const EdgeInsets.only(top: 100.0),
                 child: BlocListener(
                   bloc: blocprovider,
                   listener: (context, state) {
@@ -123,12 +137,13 @@ class DoctorsListPageState extends State<DoctorsListPage> {
                     bloc: blocprovider,
                     builder: (context, state) {
                       if(state is DoctorsListLoadedState) {
+                        final dataList = dropdownValue == 'All' ? state.data! : state.data!.where((data) => data.region == dropdownValue).toList();
                         return Container(
                           padding: const EdgeInsets.only(top: 80.0),
                           child: SingleChildScrollView(
                             child: Column(
-                              children: List.generate(state.data.length, (index) {
-                                return DoctorCellWidget(thumbnailPath: state.data[index].thumpImage,branchName: state.data[index].branchName,designation: state.data[index].designation,doctorName: state.data[index].doctorName,);
+                              children: List.generate(dataList.length, (index) {
+                                return DoctorCellWidget(thumbnailPath: dataList[index].thumpImage,branchName: dataList[index].branchName,designation: dataList[index].designation,doctorName: dataList[index].doctorName,);
                               }),
                             ),
                           ),
