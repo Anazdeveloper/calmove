@@ -1,6 +1,8 @@
+import 'package:calmove/Modals/doctors_list_modal.dart';
 import 'package:calmove/Screens/DoctorsList/doctors_list_bloc.dart';
 import 'package:calmove/UIComponents/doctor_cell_widget.dart';
 import 'package:calmove/UIComponents/progress.dart';
+import 'package:calmove/UIComponents/search_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,11 +23,16 @@ class Item {
 }
 
 class DoctorsListPageState extends State<DoctorsListPage> {
+  late List<DoctorData> doctorList;
 
   TextEditingController queryTextController = TextEditingController();
 
   List<String> locations = <String>['All','Dammam','Jeddah','Madinah','Makkah','Riyadh'];
   String? dropdownValue = 'All';
+
+  List<DoctorData> doctors = [];
+  String query = '';
+
   // List locations = [
   //   Item('Dammam'),
   //   Item('Jeddah'),
@@ -35,6 +42,7 @@ class DoctorsListPageState extends State<DoctorsListPage> {
   // ];
   @override
   Widget build(BuildContext context) {
+    //doctors = doctorList;
     final blocprovider = BlocProvider.of<DoctorsListBloc>(context);
     blocprovider.add(DoctorsListUiLoadedEvent());
     return SafeArea(
@@ -125,7 +133,12 @@ class DoctorsListPageState extends State<DoctorsListPage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(top: 100.0),
+                alignment: Alignment.topCenter,
+                padding: EdgeInsets.only(top: 90.0),
+                child: buildSearch(),
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 180.0),
                 child: BlocListener(
                   bloc: blocprovider,
                   listener: (context, state) {
@@ -138,14 +151,14 @@ class DoctorsListPageState extends State<DoctorsListPage> {
                     builder: (context, state) {
                       if(state is DoctorsListLoadedState) {
                         final dataList = dropdownValue == 'All' ? state.data! : state.data!.where((data) => data.region == dropdownValue).toList();
-                        return Container(
-                          padding: const EdgeInsets.only(top: 80.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: List.generate(dataList.length, (index) {
-                                return DoctorCellWidget(thumbnailPath: dataList[index].thumpImage,branchName: dataList[index].branchName,designation: dataList[index].designation,doctorName: dataList[index].doctorName,);
-                              }),
-                            ),
+                        doctorList = dataList;
+                        final finalList = doctors.isEmpty ? dataList : doctors;
+                        print(finalList.length);
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: List.generate(finalList.length, (index) {
+                              return DoctorCellWidget(thumbnailPath: finalList[index].thumpImage,branchName: finalList[index].branchName,designation: finalList[index].designation,doctorName: finalList[index].doctorName,);
+                            }),
                           ),
                         );
                       }
@@ -158,6 +171,25 @@ class DoctorsListPageState extends State<DoctorsListPage> {
           ),
         )
     );
+  }
+
+  Widget buildSearch() => SearchWidget(
+    text: query,
+    hintText: 'Search for a doctor',
+    onChanged: searchDoctor,
+  );
+
+  void searchDoctor(String query) {
+    final doctors = doctorList.where((doctor) {
+      final doctorName = doctor.doctorName;
+      final searchName = query;
+      return doctorName!.contains(searchName);
+    }).toList();
+
+    setState(() {
+      this.doctors = doctors;
+      this.query = query;
+    });
   }
 
 }
