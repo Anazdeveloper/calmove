@@ -98,10 +98,64 @@ class DoctorCellWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const VerticalDivider(
-                          width: 2.0,
-                          color: Colors.grey,
-                          thickness: 2.0,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 5.0),
+                          child: Container(
+                            color: Colors.grey,
+                            height: 40.0,
+                            width: 1,
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                                '129 reviews',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12
+                              ),
+                            ),
+                            Row(
+                              children: const [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.deepOrange,
+                                  size: 15.0,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.deepOrange,
+                                  size: 15.0,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.deepOrange,
+                                  size: 15.0,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 15.0,
+                                  //color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 15.0,
+                                  //color: Colors.yellow,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 5.0),
+                          child: Container(
+                            color: Colors.grey,
+                            height: 40.0,
+                            width: 1,
+                          ),
+                        ),
+                        Icon(
+                          Icons.
                         )
                       ],
                     ),

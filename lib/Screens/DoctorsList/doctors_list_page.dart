@@ -88,54 +88,58 @@ class DoctorsListPageState extends State<DoctorsListPage> {
                   color: Colors.cyan[700]
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(top:60.0),
-                //alignment: Alignment.topCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      color: Colors.white,
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(top:60.0),
+                    //alignment: Alignment.topCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: Colors.white,
+                        ),
+                        DropdownButton(
+                          value: locations[0],
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          elevation: 0,
+                          dropdownColor: Colors.cyan[700],
+                          iconEnabledColor: Colors.white,
+                          style: const TextStyle(color: Colors.cyan),
+                          selectedItemBuilder: (BuildContext context) {
+                            return locations.map((String value) {
+                              return Text(
+                                dropdownValue ?? locations[0],
+                                style: const TextStyle(color: Colors.white),
+                              );
+                            }).toList();
+                          },
+                          items: locations.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                    color: Colors.white
+                                ),
+                              ),
+                              value: value,
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
-                    DropdownButton(
-                      value: locations[0],
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      elevation: 0,
-                      dropdownColor: Colors.cyan[700],
-                      iconEnabledColor: Colors.white,
-                      style: const TextStyle(color: Colors.cyan),
-                      selectedItemBuilder: (BuildContext context) {
-                        return locations.map((String value) {
-                          return Text(
-                            dropdownValue ?? locations[0],
-                            style: const TextStyle(color: Colors.white),
-                          );
-                        }).toList();
-                      },
-                      items: locations.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                                color: Colors.white
-                            ),
-                          ),
-                          value: value,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(top: 90.0),
-                child: buildSearch(),
+                  ),
+                  Container(
+                    alignment: Alignment.topCenter,
+                    //padding: EdgeInsets.only(top: 90.0),
+                    child: buildSearch(),
+                  ),
+                ],
               ),
               Container(
                 padding: const EdgeInsets.only(top: 180.0),
